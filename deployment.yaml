@@ -9,26 +9,26 @@ spec:
   - protocol: "TCP"
     port: 6000
     targetPort: 5000
-  type: LoadBalancer
+  type: NodePort
 
 ---
 apiVersion: apps/v1
-kind: deployment
+kind: Deployment
 metadata:
   name: flask-test-app
 spec:
   selector:
     matchLabels:
       app: flask-test-app
-    replicas: 3
-    template:
-      metadata:
-        labels:
-          app: flask-test-app
-      spec:
-        containers:
-        - name: flask-test-app
-          image: flask-kubernetes
-          imagePullPolicy: IfNotPresent
-          ports:
-          - containerPort: 5000
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: flask-test-app
+    spec:
+      containers:
+      - name: flask-test-app
+        image: pramod997/flask-kubernetes         
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
